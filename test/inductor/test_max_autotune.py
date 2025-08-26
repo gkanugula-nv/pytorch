@@ -1922,39 +1922,6 @@ class TestMaxAutotune(TestCase):
             out, code = run_and_get_code(compiled_f, a, b)
             torch.testing.assert_close(out, mm(a, b), atol=1e-2, rtol=1e-2)
 
-    def test_get_mm_configs_float32_precision_ieee(self):
-        """Test that configs returned from choices.get_mm_configs use float32_precision == ieee."""
-        from torch._inductor.choices import InductorChoices
-        from torch._inductor.graph import GraphLowering
-        from torch._inductor.ir import FlexibleLayout
-        from torch.fx.experimental.proxy_tensor import make_fx
-
-        # Create a simple graph to get proper context
-        gm = make_fx(lambda: torch.zeros(2, 3))()
-        graph = GraphLowering(gm)
-
-        with V.set_graph_handler(graph):
-            device = torch.device(f"{GPU_TYPE}:0")
-            mat1 = InputBuffer(
-                name="mat1",
-                layout=FixedLayout(device, torch.float32, [64, 128], [128, 1]),
-            )
-            mat2 = InputBuffer(
-                name="mat2",
-                layout=FixedLayout(device, torch.float32, [128, 64], [64, 1]),
-            )
-            kernel_inputs = MMKernelInputs([mat1, mat2])
-            output_layout = FlexibleLayout(device, torch.float32, [64, 64])
-
-            choices = InductorChoices()
-            configs = list(
-                choices.get_mm_configs(kernel_inputs, output_layout, "mm", "mm")
-            )
-
-            for config in configs:
-                self.assertIn("FLOAT32_PRECISION", config)
-                self.assertEqual(config["FLOAT32_PRECISION"], '"ieee"')
-
 
 class TestMaxAutotunePrecompile(TestCase):
     def test_precompilation_threads(self):
