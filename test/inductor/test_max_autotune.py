@@ -27,7 +27,6 @@ from torch._inductor.autotune_process import (
     TuningProcess,
     TuningProcessPool,
 )
-from torch._inductor.select_algorithm import add_feedback_saver
 from torch._inductor.graph import GraphLowering
 from torch._inductor.ir import Buffer, ChoiceCaller, FixedLayout, InputBuffer
 from torch._inductor.kernel.mm_plus_mm import aten_mm_plus_mm
