@@ -969,6 +969,7 @@ class TritonKernelWrapperMutation(HigherOrderOperator):
 
     def __call__(
         self,
+        kernel: "TritonKernelType",
         kernel_idx: int,
         constant_args_idx: int,
         grid: list["TritonGridType"],
@@ -976,6 +977,7 @@ class TritonKernelWrapperMutation(HigherOrderOperator):
         kwargs: dict[str, Any],
     ) -> Any:
         return super().__call__(
+            kernel=kernel,
             kernel_idx=kernel_idx,
             constant_args_idx=constant_args_idx,
             grid=grid,
@@ -1241,6 +1243,7 @@ def triton_kernel_wrapper_functional_dense(
         for key, val in kwargs.items()
     }
     triton_kernel_wrapper_mutation(
+        kernel="placeholder",
         kernel_idx=kernel_idx,
         constant_args_idx=constant_args_idx,
         grid=grid,
@@ -1996,6 +1999,7 @@ class TracingTritonHOPifier(TritonHOPifier):
 
         assert isinstance(variable.kernel_idx, int)
         return triton_kernel_wrapper_mutation(
+            kernel=variable.kernel,
             kernel_idx=variable.kernel_idx,
             constant_args_idx=constant_args_idx,
             grid=grids,  # type: ignore[arg-type]
