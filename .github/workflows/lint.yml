@@ -19,7 +19,7 @@ permissions: read-all
 # When any other step fails, it's job will be retried once by retryBot.
 jobs:
   get-label-type:
-    if: github.repository_owner == 'pytorch'
+    if: github.repository_owner == 'gkanugula-nv'
     name: get-label-type
     uses: pytorch/pytorch/.github/workflows/_runner-determinator.yml@main
     with:
@@ -28,7 +28,7 @@ jobs:
       curr_branch: ${{ github.head_ref || github.ref_name }}
 
   get-changed-files:
-    if: github.repository_owner == 'pytorch'
+    if: github.repository_owner == 'gkanugula-nv'
     name: Get changed files
     uses: ./.github/workflows/_get-changed-files.yml
 
@@ -37,7 +37,7 @@ jobs:
     needs: [get-label-type, get-changed-files]
     # Only run if there are changed files relevant to clangtidy / clangformat
     if: |
-      github.repository_owner == 'pytorch' && (
+      github.repository_owner == 'gkanugula-nv' && (
         needs.get-changed-files.outputs.changed-files == '*' ||
         contains(needs.get-changed-files.outputs.changed-files, '.h') ||
         contains(needs.get-changed-files.outputs.changed-files, '.cpp') ||
@@ -76,7 +76,7 @@ jobs:
     needs: [get-label-type, get-changed-files]
     # Only run if there are changed files relevant to mypy
     if: |
-      github.repository_owner == 'pytorch' && (
+      github.repository_owner == 'gkanugula-nv' && (
         needs.get-changed-files.outputs.changed-files == '*' ||
         contains(needs.get-changed-files.outputs.changed-files, '.py') ||
         contains(needs.get-changed-files.outputs.changed-files, '.pyi')
