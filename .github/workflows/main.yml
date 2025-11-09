@@ -1,0 +1,20 @@
+name: Test NV Workflow
+
+# Trigger manually from the GitHub UI
+on:
+  workflow_dispatch:
+
+jobs:
+  test-run:
+    name: Run on custom runner
+    runs-on: [rtx-4090-1]   # 👈 replace with your runner label(s)
+
+    steps:
+      - name: Print machine name
+        run: hostname
+
+      - name: Print numbers 1 to 10
+        run: |
+          for i in {1..10}; do
+            echo "Number $i"
+          done
