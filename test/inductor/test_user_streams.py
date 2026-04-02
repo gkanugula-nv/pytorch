@@ -27,7 +27,8 @@ from torch._inductor.stream_constants import (
 from torch._inductor.stream_utils import get_stream_name
 from torch._inductor.test_case import TestCase as InductorTestCase
 from torch._inductor.utils import IndentedBuffer
-from torch.testing._internal.common_cuda import TEST_CUDA
+from torch.testing import FileCheck
+from torch.testing._internal.common_cuda import TEST_CUDA, xfailIfNoTriton
 from torch.testing._internal.common_utils import instantiate_parametrized_tests
 
 
@@ -185,7 +186,7 @@ class TestStreamCodegen(InductorTestCase):
 
 
 @unittest.skipIf(not TEST_CUDA, "requires CUDA")
-@skipIfNoTritonOnWindows
+@xfailIfNoTriton
 class TestUserStreamCompile(InductorTestCase):
     """End-to-end tests for torch.compile with user stream contexts."""
 
@@ -1273,7 +1274,7 @@ with torch.cuda._DeviceGuard(0):
 
 
 @unittest.skipUnless(TEST_CUDA, "requires CUDA")
-@skipIfNoTritonOnWindows
+@xfailIfNoTriton
 class TestStreamOrderingStress(InductorTestCase):
     """Stress tests verifying that interleaved event record/wait ops
     produce correct ordering under compilation.  Each test uses large
@@ -1556,7 +1557,7 @@ class TestStreamOrderingStress(InductorTestCase):
 
 
 @unittest.skipUnless(TEST_CUDA, "requires CUDA")
-@skipIfNoTritonOnWindows
+@xfailIfNoTriton
 class TestGenericStreamCompile(InductorTestCase):
     """Tests for torch.compile with device-agnostic torch.Stream API."""
 
@@ -1718,7 +1719,7 @@ class TestGenericStreamCompile(InductorTestCase):
 
 
 @unittest.skipUnless(TEST_CUDA, "requires CUDA")
-@skipIfNoTritonOnWindows
+@xfailIfNoTriton
 class TestStreamIdentity(InductorTestCase):
     """Verify that compiled code uses the user's original stream objects."""
 
