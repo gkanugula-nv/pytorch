@@ -21,7 +21,7 @@ jobs:
 
   # Windows CUDA Build & Test - sm_89 (RTX 40xx)
   win_vs2022_cuda12_8_py3_build_sm89:
-    if: github.repository_owner == 'pytorch'
+    # if: github.repository_owner == 'pytorch'
     name: win-vs2022-cuda12.8-py3-sm89
     uses: ./.github/workflows/_win-build.yml
     with:
@@ -61,7 +61,7 @@ jobs:
 
   # Windows CUDA Build & Test - sm_120 (Blackwell - RTX 5070)
   win_vs2022_cuda12_8_py3_build_sm120:
-    if: github.repository_owner == 'pytorch'
+    # if: github.repository_owner == 'pytorch'
     name: win-vs2022-cuda12.8-py3-sm120
     uses: ./.github/workflows/_win-build.yml
     with:
